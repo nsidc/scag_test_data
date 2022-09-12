@@ -72,9 +72,7 @@ Description of folders and contents
 Here we define the specific scenes and files, and record the metadata and md5sum hash of the files in case upstream products change.
 
 # TODO: LE07 and LC08
-#
 # https://landsatlook.usgs.gov/bundle/LE07_L2SP_046027_20201205_20201231_02_T1.tar?requestSignature=eyJjb250YWN0SWQiOjI0NDM3NDA0LCJkb3dubG9hZElkIjoyMjU2MTQ3MjAsImRhdGVHZW5lcmF0ZWQiOiIyMDIyLTA4LTE2VDEwOjM1OjU5LTA1OjAwIiwic2lnbmF0dXJlIjoiJDUkJEVnUlpYRFVySDNIVWZpRVBDaUllOGltNG01clgzbzF3NGhBUWZJME1LLlwvIn0=
-# 
 # https://landsatlook.usgs.gov/bundle/LC09_L2SP_046028_20220720_20220723_02_T1.tar?requestSignature=eyJjb250YWN0SWQiOjI0NDM3NDA0LCJkb3dubG9hZElkIjoyMjU2MTYxOTAsImRhdGVHZW5lcmF0ZWQiOiIyMDIyLTA4LTE2VDEwOjM4OjUzLTA1OjAwIiwic2lnbmF0dXJlIjoiJDUkJHBhUUVMd0dFNDcuYTh5Y2ZCZHM1NzdMQUo4NGEwMnViYXdhTE9qd1FhNUEifQ==
 
 *** Landsat 8
@@ -83,7 +81,7 @@ https://landsatlook.usgs.gov/bundle/LC08_L2SP_046027_20200316_20200822_02_T1.tar
 
 **** md5sum of files
 
-#+BEGIN_SRC bash
+#+BEGIN_SRC bash :exports both
 md5sum LC08_L2SP_046027_20200316_20200822_02_T1.tar
 tar --to-command=md5sum -xvf LC08_L2SP_046027_20200316_20200822_02_T1.tar | paste - -
 #+END_SRC
@@ -120,8 +118,8 @@ tar --to-command=md5sum -xvf LC08_L2SP_046027_20200316_20200822_02_T1.tar | past
 
 **** Metadata
 
-#+BEGIN_SRC bash :results verbatim
-tar -axf ${filename} LC08_L2SP_046027_20200316_20200822_02_T1_MTL.txt -O | cat
+#+BEGIN_SRC bash :results verbatim :exports both
+tar -axf LC08_L2SP_046027_20200316_20200822_02_T1.tar LC08_L2SP_046027_20200316_20200822_02_T1_MTL.txt -O | cat
 #+END_SRC
 
 #+RESULTS:
@@ -493,7 +491,7 @@ END
 https://e4ftl01.cr.usgs.gov/DP120/MOLT/MOD09GA.061/2022.08.12/MOD09GA.A2022224.h09v04.061.2022226033159.hdf
 
 **** md5sum 
-#+BEGIN_SRC bash
+#+BEGIN_SRC bash :exports both
 md5sum MOD09GA.A2022224.h09v04.061.2022226033159.hdf
 #+END_SRC
 
@@ -503,7 +501,7 @@ md5sum MOD09GA.A2022224.h09v04.061.2022226033159.hdf
 
 **** Metadata
 
-#+BEGIN_SRC bash :results verbatim 
+#+BEGIN_SRC bash :results verbatim :exports both
 gdalinfo MOD09GA.A2022224.h09v04.061.2022226033159.hdf
 #+END_SRC
 
@@ -721,7 +719,7 @@ Workflow is:
 
 ** Landsat 8
 
-#+BEGIN_SRC bash :results verbatim :dir 1_subset
+#+BEGIN_SRC bash :results verbatim :dir 1_subset :exports both
 rm -fR LC08_L2SP_046027_20200316_20200822_02_T1
 mkdir -p LC08_L2SP_046027_20200316_20200822_02_T1
 tar xvf ../0_upstream/LC08_L2SP_046027_20200316_20200822_02_T1.tar -C LC08_L2SP_046027_20200316_20200822_02_T1
@@ -832,7 +830,7 @@ LC08_L2SP_046027_20200316_20200822_02_T1_SR_B7.TIF
 
 This is easier to subset than the Landsat tarballs because of the HDF (NetCDF) file format.
 
-#+BEGIN_SRC jupyter-python :kernel scag
+#+BEGIN_SRC jupyter-python :kernel scag :exports both
 import numpy as np
 import xarray as xr
 ds = xr.open_dataset('./0_upstream/MOD09GA.A2022224.h09v04.061.2022226033159.hdf' , engine='netcdf4')
@@ -846,7 +844,7 @@ ds.to_netcdf('./1_subset/MOD09GA.A2022224.h09v04.061.2022226033159_subset.hdf')
 
 #+RESULTS:
 
-#+BEGIN_SRC bash :dir 1_subset
+#+BEGIN_SRC bash :dir 1_subset :exports both
 md5sum MOD09GA.A2022224.h09v04.061.2022226033159_subset.hdf
 #+END_SRC
 
@@ -857,7 +855,7 @@ md5sum MOD09GA.A2022224.h09v04.061.2022226033159_subset.hdf
 * BIPified data
 ** Generate SCAG BIP data
 
-#+BEGIN_SRC bash :results verbatim
+#+BEGIN_SRC bash :results verbatim :exports both
 eval "$(conda shell.bash hook)"
 conda activate scag
 
@@ -877,7 +875,7 @@ conda activate scag
 
 ** SCAG BIP md5sum hashes
 
-#+BEGIN_SRC bash
+#+BEGIN_SRC bash :exports both
 md5sum 2_scag_bip/*
 #+END_SRC
 
@@ -889,7 +887,7 @@ md5sum 2_scag_bip/*
 
 ** SCAG BIP contents
 
-#+BEGIN_SRC bash :results verbatim :dir 2_scag_bip
+#+BEGIN_SRC bash :results verbatim :dir 2_scag_bip :exports both
 for f in *meta; do
   echo ${f}
   cat -n ${f}
@@ -934,8 +932,5 @@ MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta
 
 * SCAG outputs
 ** Run SCAG
-#+BEGIN_SRC bash
-
-#+END_SRC
 
 ** SCAG output md5sum hashes
