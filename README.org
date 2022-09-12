@@ -933,4 +933,101 @@ MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta
 * SCAG outputs
 ** Run SCAG
 
++ This is presumed to be run from the =scag= home folder.
++ We save the BIN files in case a =gdal= upgrade changes the GeoTIFF md5sum hash
+  
+#+BEGIN_SRC bash :exports both
+SCAG_TEST_DATA=./scag_test_data # path to scag_test_data and 0,1,2, etc. sub-folders
+SRC=${SCAG_TEST_DATA}/2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip
+DEST=${SCAG_TEST_DATA}/3_output/LC08/
+./scag.sh -i ${SRC} -o ${DEST}  -w tmp
+cp ./tmp/*.bin  ${SCAG_TEST_DATA}/3_output/LC08/
+#+END_SRC
+
 ** SCAG output md5sum hashes
+
+#+BEGIN_SRC bash :exports both
+md5sum 3_output/LC08/*
+#+END_SRC
+
+#+RESULTS:
+| ad46615b330ee085a72566dafaf1e925 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.grnsz.bin |
+| 1ac75f4ef0077ca55b8065de817efe56 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.grnsz.tif |
+| 339c4ae0ef92b4baf3b04f4448365e9e | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.other.bin |
+| fca3ff27e6107e47fc49a3094d979f22 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.other.tif |
+| 9a07545487a7b064f021115767357f05 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.rms.bin   |
+| 45e930d548181d8361e12de9aad273d5 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.rms.tif   |
+| 3c5a48232db3dd7ffe878b7ff20bad13 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.rock.bin  |
+| 41bae84d910b866fca3608b012cdf553 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.rock.tif  |
+| 4efb45ab72c19719f19a03a283722c7d | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.shade.bin |
+| d7d2869abddce15746c4de22f5a9031f | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.shade.tif |
+| 11fc90fd4b0dfb3a48e8f4a321124d19 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.snow.bin  |
+| 6d610ab81fb578f66be4940c65c4e9e4 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.snow.tif  |
+| 7a42e772f8030cc5543f08c671ed1a7b | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.veg.bin   |
+| 281af44a33a10470ad53697548c83b42 | 3_output/LC08/LC08_L2SP_046027_20200316_20200822_02_T1.veg.tif   |
+
+#+BEGIN_SRC bash :exports both :dir 3_output/LC08/ :results verbatim
+gdalinfo -mm LC08_L2SP_046027_20200316_20200822_02_T1.snow.tif
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Driver: GTiff/GeoTIFF
+Files: LC08_L2SP_046027_20200316_20200822_02_T1.snow.tif
+Size is 1500, 10
+Coordinate System is:
+PROJCRS["WGS 84 / UTM zone 10N",
+    BASEGEOGCRS["WGS 84",
+        DATUM["World Geodetic System 1984",
+            ELLIPSOID["WGS 84",6378137,298.257223563,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4326]],
+    CONVERSION["UTM zone 10N",
+        METHOD["Transverse Mercator",
+            ID["EPSG",9807]],
+        PARAMETER["Latitude of natural origin",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",-123,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["Scale factor at natural origin",0.9996,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8805]],
+        PARAMETER["False easting",500000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",0,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Engineering survey, topographic mapping."],
+        AREA["Between 126°W and 120°W, northern hemisphere between equator and 84°N, onshore and offshore. Canada - British Columbia (BC); Northwest Territories (NWT); Nunavut; Yukon. United States (USA) - Alaska (AK)."],
+        BBOX[0,-126,84,-120]],
+    ID["EPSG",32610]]
+Data axis to CRS axis mapping: 1,2
+Origin = (593909.000000000000000,5189571.000000000000000)
+Pixel Size = (30.020000000000000,-33.000000000000000)
+Metadata:
+  AREA_OR_POINT=Area
+Image Structure Metadata:
+  INTERLEAVE=BAND
+Corner Coordinates:
+Upper Left  (  593909.000, 5189571.000) (121d46' 5.30"W, 46d51'10.98"N)
+Lower Left  (  593909.000, 5189241.000) (121d46' 5.54"W, 46d51' 0.29"N)
+Upper Right (  638939.000, 5189571.000) (121d10'39.75"W, 46d50'42.62"N)
+Lower Right (  638939.000, 5189241.000) (121d10'40.11"W, 46d50'31.93"N)
+Center      (  616424.000, 5189406.000) (121d28'22.56"W, 46d50'52.83"N)
+Band 1 Block=1500x5 Type=Byte, ColorInterp=Gray
+    Computed Min/Max=0.000,100.000
+  NoData Value=255
+#+end_example
