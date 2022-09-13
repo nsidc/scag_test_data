@@ -71,16 +71,8 @@ Description of folders and contents
 
 Here we define the specific scenes and files, and record the metadata and md5sum hash of the files in case upstream products change.
 
-# TODO: LE07 and LC08
-# https://landsatlook.usgs.gov/bundle/LE07_L2SP_046027_20201205_20201231_02_T1.tar?requestSignature=eyJjb250YWN0SWQiOjI0NDM3NDA0LCJkb3dubG9hZElkIjoyMjU2MTQ3MjAsImRhdGVHZW5lcmF0ZWQiOiIyMDIyLTA4LTE2VDEwOjM1OjU5LTA1OjAwIiwic2lnbmF0dXJlIjoiJDUkJEVnUlpYRFVySDNIVWZpRVBDaUllOGltNG01clgzbzF3NGhBUWZJME1LLlwvIn0=
-# https://landsatlook.usgs.gov/bundle/LC09_L2SP_046028_20220720_20220723_02_T1.tar?requestSignature=eyJjb250YWN0SWQiOjI0NDM3NDA0LCJkb3dubG9hZElkIjoyMjU2MTYxOTAsImRhdGVHZW5lcmF0ZWQiOiIyMDIyLTA4LTE2VDEwOjM4OjUzLTA1OjAwIiwic2lnbmF0dXJlIjoiJDUkJHBhUUVMd0dFNDcuYTh5Y2ZCZHM1NzdMQUo4NGEwMnViYXdhTE9qd1FhNUEifQ==
-
 *** Landsat 8
-
-https://landsatlook.usgs.gov/bundle/LC08_L2SP_046027_20200316_20200822_02_T1.tar?requestSignature=eyJjb250YWN0SWQiOjI0NDM3NDA0LCJkb3dubG9hZElkIjoyMjU2MTQyOTYsImRhdGVHZW5lcmF0ZWQiOiIyMDIyLTA4LTE2VDEwOjMzOjI2LTA1OjAwIiwic2lnbmF0dXJlIjoiJDUkJHJtVHpWcmx2NE1vbDk3b3ZvVWhMT0gzRkZ1YmplbG1TVFQ4UXVCVkNmci4ifQ==
-
-**** md5sum of files
-
+**** md5sum
 #+BEGIN_SRC bash :exports both
 md5sum LC08_L2SP_046027_20200316_20200822_02_T1.tar
 tar --to-command=md5sum -xvf LC08_L2SP_046027_20200316_20200822_02_T1.tar | paste - -
@@ -487,9 +479,6 @@ END
 
 
 *** MOD09GA
-
-https://e4ftl01.cr.usgs.gov/DP120/MOLT/MOD09GA.061/2022.08.12/MOD09GA.A2022224.h09v04.061.2022226033159.hdf
-
 **** md5sum 
 #+BEGIN_SRC bash :exports both
 md5sum MOD09GA.A2022224.h09v04.061.2022226033159.hdf
