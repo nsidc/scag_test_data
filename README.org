@@ -52,7 +52,7 @@ tree -d
 Description of folders and contents
 
 + 0_upstream :: Upstream products can be stored here if desired. =md5sum= recorded to help determine if upstream processing changes
-+ 1_subset :: Subsets of =0_upstream= small enough that the full processing pipeline takes O(1s)
++ 1_subset :: Subsets of =0_upstream= small enough that the full processing pipeline takes O(10s)
 + 2_scag_bip :: Pre-processed BIPified data. Temporary. Reduces external dependencies for CI. Will be removed when BIPifier is moved from external dependency to inside this project.
 + 3_output :: Outputs of SCAG algorithm for regression testing comparison purposes
 
@@ -926,9 +926,10 @@ MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta
 + We save the BIN files in case a =gdal= upgrade changes the GeoTIFF md5sum hash
   
 #+BEGIN_SRC bash :exports both
-SCAG_TEST_DATA=./scag_test_data # path to scag_test_data and 0,1,2, etc. sub-folders
+SCAG_TEST_DATA=$(readlink -f .)
 SRC=${SCAG_TEST_DATA}/2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip
 DEST=${SCAG_TEST_DATA}/3_output/LC08/
+cd ../scag
 ./scag.sh -i ${SRC} -o ${DEST}  -w tmp
 cp ./tmp/*.bin  ${SCAG_TEST_DATA}/3_output/LC08/
 #+END_SRC
