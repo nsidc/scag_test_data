@@ -871,7 +871,7 @@ md5sum 2_scag_bip/*
 #+RESULTS:
 | f1339aa9c7f44246d42db9c357e8c7c2 | 2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip       |
 | 76bab810e8943c11e270d57323a19801 | 2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip.meta  |
-| 6e7edee337e8c08f02f115494c94f8e1 | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip      |
+| 1fc5852ae8df85d96026cc971365253b | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip      |
 | 87ed8137a58a06e5dd4e5925f3ca7214 | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta |
 
 ** SCAG BIP contents
@@ -932,7 +932,7 @@ SCAG_TEST_DATA=$(readlink -f .)
 SRC=${SCAG_TEST_DATA}/2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip
 DEST=${SCAG_TEST_DATA}/3_output/LC08/
 cd ../scag
-./scag.sh -i ${SRC} -o ${DEST}  -w tmp
+./scag.sh -i ${SRC} -o ${DEST}  -w tmp --debug
 cp ./tmp/*.bin  ${SCAG_TEST_DATA}/3_output/LC08/
 #+END_SRC
 
