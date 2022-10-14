@@ -4,11 +4,13 @@
   - [[#about-this-document][About This Document]]
 - [[#folder-structure][Folder structure]]
 - [[#input-data][Input data]]
-  - [[#general][General]]
-  - [[#specific][Specific]]
-- [[#test-data-creation][Test data creation]]
+  - [[#provenance][Provenance]]
+- [[#metadata][Metadata]]
   - [[#landsat-8][Landsat 8]]
   - [[#mod09ga][MOD09GA]]
+- [[#test-data-creation][Test data creation]]
+  - [[#landsat-8-1][Landsat 8]]
+  - [[#mod09ga-1][MOD09GA]]
 - [[#bipified-data][BIPified data]]
   - [[#generate-scag-bip-data][Generate SCAG BIP data]]
   - [[#scag-bip-md5sum-hashes][SCAG BIP md5sum hashes]]
@@ -24,6 +26,10 @@ This folder describes the SCAG test data.
 Motivation:
 1. Provide the full pipeline of test data so that changes in outputs can be traced upstream. We record metadata of the raw upstream inputs (e.g., Landsat tarball) so that if upstream USGS processing changes occur, we can determine that and adjust the regression test expectations accordingly.
 2. Provide small subsets for rapid regression testing.
+
+Organization:   
++ The original full files are archived at https://osf.io/4cp58/.
++ This document and repository contains the code, metadata, and subsetted and processed data.
 
 ** About This Document
 
@@ -57,22 +63,32 @@ Description of folders and contents
 + 3_output :: Outputs of SCAG algorithm for regression testing comparison purposes
 
 * Input data
-** General
 
 + [ ] Landsat 7
 + [X] Landsat 8
 + [ ] Landsat 9
 + [X] MODIS MOD09GA
++ [ ] VIIRS
 
-** Specific
+** Provenance
+
+Files downloaded manually from respective repositories and archived at https://osf.io/4cp58/ to protect from upstream processing changes.
+
+#+BEGIN_SRC bash
+wget -nc -O 0_upstream.zip https://files.osf.io/v1/resources/4cp58/providers/osfstorage/?zip=
+unzip  0_upstream.zip -d 0_upstream
+# rm 0_upstream.zip
+#+END_SRC
+  
+* Metadata
 :PROPERTIES:
 :header-args: :dir 0_upstream
 :END:
 
 Here we define the specific scenes and files, and record the metadata and md5sum hash of the files in case upstream products change.
 
-*** Landsat 8
-**** md5sum
+** Landsat 8
+*** md5sum
 #+BEGIN_SRC bash :exports both
 md5sum LC08_L2SP_046027_20200316_20200822_02_T1.tar
 tar --to-command=md5sum -xvf LC08_L2SP_046027_20200316_20200822_02_T1.tar | paste - -
@@ -108,7 +124,7 @@ tar --to-command=md5sum -xvf LC08_L2SP_046027_20200316_20200822_02_T1.tar | past
 | LC08_L2SP_046027_20200316_20200822_02_T1_thumb_large.jpeg  | ace4e0f6d75bd296a039f047403f7345             | - |
 | LC08_L2SP_046027_20200316_20200822_02_T1_thumb_small.jpeg  | 89b490563d996cece08bb0082a4cc058             | - |
 
-**** Metadata
+*** Metadata
 
 #+BEGIN_SRC bash :results verbatim :exports both
 tar -axf LC08_L2SP_046027_20200316_20200822_02_T1.tar LC08_L2SP_046027_20200316_20200822_02_T1_MTL.txt -O | cat
@@ -478,8 +494,8 @@ END
 
 
 
-*** MOD09GA
-**** md5sum 
+** MOD09GA
+*** md5sum 
 #+BEGIN_SRC bash :exports both
 md5sum MOD09GA.A2022224.h09v04.061.2022226033159.hdf
 #+END_SRC
@@ -488,7 +504,7 @@ md5sum MOD09GA.A2022224.h09v04.061.2022226033159.hdf
 : 00ea1272e7b3d3a9ac2831d03405a056  MOD09GA.A2022224.h09v04.061.2022226033159.hdf
 
 
-**** Metadata
+*** Metadata
 
 #+BEGIN_SRC bash :results verbatim :exports both
 gdalinfo MOD09GA.A2022224.h09v04.061.2022226033159.hdf
@@ -819,7 +835,7 @@ LC08_L2SP_046027_20200316_20200822_02_T1_SR_B7.TIF
 
 This is easier to subset than the Landsat tarballs because of the HDF (NetCDF) file format.
 
-#+BEGIN_SRC jupyter-python :kernel scag :exports both
+#+BEGIN_SRC jupyter-python :kernel scag :exports both :session scag_test_data
 import numpy as np
 import xarray as xr
 ds = xr.open_dataset('./0_upstream/MOD09GA.A2022224.h09v04.061.2022226033159.hdf' , engine='netcdf4')
@@ -870,9 +886,9 @@ md5sum 2_scag_bip/*
 
 #+RESULTS:
 | f1339aa9c7f44246d42db9c357e8c7c2 | 2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip       |
-| 76bab810e8943c11e270d57323a19801 | 2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip.meta  |
+| 54d8ee21de354f45913ec968e072b407 | 2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip.meta  |
 | 1fc5852ae8df85d96026cc971365253b | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip      |
-| 87ed8137a58a06e5dd4e5925f3ca7214 | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta |
+| 904f42e0e60416ccdd4c26a22341531e | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta |
 
 ** SCAG BIP contents
 
@@ -887,7 +903,7 @@ done
 #+RESULTS:
 #+begin_example
 LC08_L2SP_046027_20200316_20200822_02_T1.bip.meta
-     1	SENSOR_PLATFORM=LANDSAT_8
+     1	SENSOR=OLI
      2	NLINES=10
      3	NSAMPLES=1500
      4	NBANDS=6
@@ -903,7 +919,7 @@ LC08_L2SP_046027_20200316_20200822_02_T1.bip.meta
     14	CORNER_LR_PROJECTION_Y_PRODUCT=5189241.0
 
 MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta
-     1	SENSOR_PLATFORM=MOD09GA
+     1	SENSOR=MODIS
      2	NLINES=100
      3	NSAMPLES=150
      4	NBANDS=7
