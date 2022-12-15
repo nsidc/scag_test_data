@@ -11,10 +11,9 @@
 - [[#test-data-creation][Test data creation]]
   - [[#landsat-8-1][Landsat 8]]
   - [[#mod09ga-1][MOD09GA]]
-- [[#bipified-data][BIPified data]]
-  - [[#generate-scag-bip-data][Generate SCAG BIP data]]
-  - [[#scag-bip-md5sum-hashes][SCAG BIP md5sum hashes]]
-  - [[#scag-bip-contents][SCAG BIP contents]]
+- [[#preprocess][Preprocess]]
+  - [[#bipified-data][BIPified data]]
+  - [[#sza-dot-data][SZA dot data]]
 - [[#scag-outputs][SCAG outputs]]
   - [[#run-scag][Run SCAG]]
   - [[#scag-output-md5sum-hashes][SCAG output md5sum hashes]]
@@ -857,8 +856,9 @@ md5sum MOD09GA.A2022224.h09v04.061.2022226033159_subset.hdf
 : ad976133ab597327a4d38d567307ddf0  MOD09GA.A2022224.h09v04.061.2022226033159_subset.hdf
 
 
-* BIPified data
-** Generate SCAG BIP data
+* Preprocess
+** BIPified data
+*** Generate SCAG BIP data
 
 #+BEGIN_SRC bash :results verbatim :exports both
 eval "$(conda shell.bash hook)"
@@ -878,7 +878,7 @@ conda activate scag
 
 #+RESULTS:
 
-** SCAG BIP md5sum hashes
+*** SCAG BIP md5sum hashes
 
 #+BEGIN_SRC bash :exports both
 md5sum 2_scag_bip/*
@@ -886,11 +886,11 @@ md5sum 2_scag_bip/*
 
 #+RESULTS:
 | f1339aa9c7f44246d42db9c357e8c7c2 | 2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip       |
-| f7e2b1dacf31f2017fa57c9bb033648c | 2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip.meta  |
+| eb007b0c90e09e0c87d04b17c5c604f8 | 2_scag_bip/LC08_L2SP_046027_20200316_20200822_02_T1.bip.meta  |
 | 1fc5852ae8df85d96026cc971365253b | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip      |
-| bf760dc939a2bd61f1ea3e91bf24607f | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta |
+| 9af24a64d5dacd644ee9053e3118b786 | 2_scag_bip/MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta |
 
-** SCAG BIP contents
+*** SCAG BIP contents
 
 #+BEGIN_SRC bash :results verbatim :dir 2_scag_bip :exports both
 for f in *meta; do
@@ -908,16 +908,15 @@ LC08_L2SP_046027_20200316_20200822_02_T1.bip.meta
      3	NLINES=10
      4	NSAMPLES=1500
      5	NBANDS=6
-     6	SUN_ZENITH=51.84235926
-     7	PROJ_STRING="+proj=utm +zone=10 +datum=WGS84 +units=m +no_defs +ellps=WGS84"
-     8	ZONE_NUMBER=10
-     9	ELLIPSOID=WGS84
-    10	DATUM=WGS84
-    11	GRID_CELL_SIZE_REFLECTIVE=30.0
-    12	CORNER_UL_PROJECTION_X_PRODUCT=593909.0
-    13	CORNER_UL_PROJECTION_Y_PRODUCT=5189571.0
-    14	CORNER_LR_PROJECTION_X_PRODUCT=638939.0
-    15	CORNER_LR_PROJECTION_Y_PRODUCT=5189241.0
+     6	PROJ_STRING="+proj=utm +zone=10 +datum=WGS84 +units=m +no_defs +ellps=WGS84"
+     7	ZONE_NUMBER=10
+     8	ELLIPSOID=WGS84
+     9	DATUM=WGS84
+    10	GRID_CELL_SIZE_REFLECTIVE=30.0
+    11	CORNER_UL_PROJECTION_X_PRODUCT=593909.0
+    12	CORNER_UL_PROJECTION_Y_PRODUCT=5189571.0
+    13	CORNER_LR_PROJECTION_X_PRODUCT=638939.0
+    14	CORNER_LR_PROJECTION_Y_PRODUCT=5189241.0
 
 MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta
      1	SOURCE_FILE=/home/kdm/projects/NSIDC/scag_test_data/1_subset/MOD09GA.A2022224.h09v04.061.2022226033159_subset.hdf
@@ -925,19 +924,31 @@ MOD09GA.A2022224.h09v04.061.2022226033159.bip.meta
      3	NLINES=100
      4	NSAMPLES=150
      5	NBANDS=7
-     6	SUN_ZENITH=0.3270000076293945
-     7	PROJ_STRING="+proj=sinu +R=6371007.181 +nadgrids=@null +wktext"
-     8	ZONE_NUMBER=h09v04
-     9	ELLIPSOID=6371007.181
-    10	DATUM=WGS84
-    11	GRID_CELL_SIZE_REFLECTIVE=463.312716527778
-    12	CORNER_UL_PROJECTION_X_PRODUCT=-10007554.677
-    13	CORNER_UL_PROJECTION_Y_PRODUCT=5559752.598333
-    14	CORNER_LR_PROJECTION_X_PRODUCT=-8895604.157333
-    15	CORNER_LR_PROJECTION_Y_PRODUCT=4447802.078667
+     6	PROJ_STRING="+proj=sinu +R=6371007.181 +nadgrids=@null +wktext"
+     7	ZONE_NUMBER=h09v04
+     8	ELLIPSOID=6371007.181
+     9	DATUM=WGS84
+    10	GRID_CELL_SIZE_REFLECTIVE=463.312716527778
+    11	CORNER_UL_PROJECTION_X_PRODUCT=-10007554.677
+    12	CORNER_UL_PROJECTION_Y_PRODUCT=5559752.598333
+    13	CORNER_LR_PROJECTION_X_PRODUCT=-8895604.157333
+    14	CORNER_LR_PROJECTION_Y_PRODUCT=4447802.078667
 
 #+end_example
 
+
+** SZA dot data
+#+BEGIN_SRC bash
+eval "$(conda shell.bash hook)"
+conda activate scag
+
+# LC08
+~/projects/NSIDC/scag/scripts/sza.py \
+  -i ./1_subset/LC08_L2SP_046027_20200316_20200822_02_T1 \
+  -o ./2_scag_bip/sza.dat
+#+END_SRC
+
+#+RESULTS:
 
 * SCAG outputs
 ** Run SCAG
@@ -953,6 +964,8 @@ cd ../scag
 ./scag.sh -i ${SRC} -o ${DEST}  -w tmp --debug
 cp ./tmp/*.bin  ${SCAG_TEST_DATA}/3_output/LC08/
 #+END_SRC
+
+#+RESULTS:
 
 ** SCAG output md5sum hashes
 
